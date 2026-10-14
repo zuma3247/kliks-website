@@ -12,7 +12,7 @@ import "./home.css";
 
 // The /next entry exports an async Server Component. Home is a Client Component,
 // so load Spline's client entry instead.
-const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false, loading: () => <img className="home-spline-poster" src="/images/kliks-k3-view-1.png" alt="Mechanical keyboard" /> });
+const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false, loading: () => <img className="home-spline-poster" src="/images/kliks-3d-model.png" alt="Kliks 3D keyboard model" /> });
 const SCENE = "https://prod.spline.design/K-uAyHz9OO1HvfNc/scene.splinecode";
 
 type Product = { id: string; name: string; detail: string; price: number; rating: string; image: string; limited?: boolean };
@@ -151,7 +151,7 @@ export default function Home() {
       <div className="home-hero-inner">
         <div className="home-wordmark" aria-hidden>KLIKS</div>
         <div className="home-scene" ref={sceneRef} aria-label="Interactive 3D keyboard">
-          {sceneEnabled ? <Spline scene={SCENE} onLoad={app => app.setBackgroundColor("rgba(255,255,255,0)")} /> : <img className="home-spline-poster" src="/images/kliks-k3-view-1.png" alt="Kliks mechanical keyboard"/>}
+          {sceneEnabled ? <Spline scene={SCENE} onLoad={app => app.setBackgroundColor("rgba(255,255,255,0)")} /> : <img className="home-spline-poster" src="/images/kliks-3d-model.png" alt="Kliks 3D keyboard model"/>}
         </div>
         <div className="home-hero-copy"><h1 id="home-title">Find a keyboard you&apos;ll love clicking.</h1><p>We&apos;ll help you understand switches, sounds, layouts, and everything else you need to choose the right keyboard.</p></div>
         <div className="home-hero-actions"><Button variant="primary" icon="trailing" href="/coming-soon?from=Find%20Your%20Keyboard">Find my keyboard</Button><Button variant="secondary" size="large" href="/learn">Learn the basics</Button></div>
