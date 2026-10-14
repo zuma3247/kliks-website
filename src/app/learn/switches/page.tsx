@@ -47,7 +47,7 @@ export default function SwitchGuidePage() {
               <h1 id="switch-guide-title">Switches, made simple.</h1>
               <p>The switch under each key decides how typing feels and sounds. Here&apos;s what to know before you pick one.</p>
             </div>
-            <img className="learn-hero-image" src="/learn/guide-switches.png" alt="Close up of mechanical keyboard switches" />
+            <img className="learn-hero-image" src="/learn/guide-switches.webp" alt="Close up of mechanical keyboard switches" />
           </div>
         </section>
 
@@ -139,7 +139,7 @@ export default function SwitchGuidePage() {
               <p>Answer a few quick questions and we’ll recommend a keyboard that feels right for you.</p>
               <a href="/coming-soon?from=find-your-keyboard" className="learn-finder-link">Find my keyboard</a>
             </div>
-            <img src="/learn/guide-sound.png" alt="Close up of mechanical keyboard switches" loading="lazy" />
+            <img src="/learn/guide-sound.webp" alt="Close up of mechanical keyboard switches" loading="lazy" />
           </div>
         </section>
       </main>

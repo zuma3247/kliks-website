@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { preconnect } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import SiteHeader from "../components/SiteHeader";
 import SiteFooter from "../components/SiteFooter";
@@ -12,23 +13,23 @@ import "./home.css";
 
 // The /next entry exports an async Server Component. Home is a Client Component,
 // so load Spline's client entry instead.
-const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false, loading: () => <img className="home-spline-poster" src="/images/kliks-3d-model.png" alt="Kliks 3D keyboard model" /> });
+const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false, loading: () => <img className="home-spline-poster" src="/images/kliks-3d-model.webp" alt="Kliks 3D keyboard model" fetchPriority="high" decoding="async" /> });
 const SCENE = "https://prod.spline.design/K-uAyHz9OO1HvfNc/scene.splinecode";
 
 type Product = { id: string; name: string; detail: string; price: number; rating: string; image: string; limited?: boolean };
 const products: Product[] = [
-  { id:"k3", name:"Kliks K3", detail:"Full-size comfort for every day", price:169, rating:"4.9 (214)", image:"/images/kliks-k3.png", limited:true },
-  { id:"k2", name:"Kliks K2", detail:"TKL feel, more desk space", price:149, rating:"4.6 (86)", image:"/images/kliks-k2.png", limited:true },
-  { id:"k4", name:"Kliks K4", detail:"A slim, compact favorite", price:119, rating:"4.7 (93)", image:"/images/kliks-k4.png", limited:true },
-  { id:"k5", name:"Kliks K5", detail:"Color that brightens your desk", price:139, rating:"NEW ARRIVAL", image:"/images/kliks-k5.png" },
-  { id:"k6", name:"Kliks K6", detail:"Full-size typing in graphite", price:159, rating:"NEW ARRIVAL", image:"/images/kliks-k6.png" },
-  { id:"k7", name:"Kliks K7", detail:"Your new everyday companion", price:129, rating:"NEW ARRIVAL", image:"/images/kliks-k7.png" },
+  { id:"k3", name:"Kliks K3", detail:"Full-size comfort for every day", price:169, rating:"4.9 (214)", image:"/images/kliks-k3.webp", limited:true },
+  { id:"k2", name:"Kliks K2", detail:"TKL feel, more desk space", price:149, rating:"4.6 (86)", image:"/images/kliks-k2.webp", limited:true },
+  { id:"k4", name:"Kliks K4", detail:"A slim, compact favorite", price:119, rating:"4.7 (93)", image:"/images/kliks-k4.webp", limited:true },
+  { id:"k5", name:"Kliks K5", detail:"Color that brightens your desk", price:139, rating:"NEW ARRIVAL", image:"/images/kliks-k5.webp" },
+  { id:"k6", name:"Kliks K6", detail:"Full-size typing in graphite", price:159, rating:"NEW ARRIVAL", image:"/images/kliks-k6.webp" },
+  { id:"k7", name:"Kliks K7", detail:"Your new everyday companion", price:129, rating:"NEW ARRIVAL", image:"/images/kliks-k7.webp" },
 ];
 const discovery = [
-  { title:"Sound", copy:"Quiet, clicky, or somewhere in between?", image:"/images/discovery-sound.png" },
-  { title:"Feel", copy:"Light, tactile, or heavy?", image:"/images/discovery-feel-1.png" },
-  { title:"Size", copy:"60%, 75%, TKL, or full-size?", image:"/images/discovery-size.png" },
-  { title:"Use", copy:"Work, gaming, coding, or creating?", image:"/images/discovery-use.png" },
+  { title:"Sound", copy:"Quiet, clicky, or somewhere in between?", image:"/images/discovery-sound.webp" },
+  { title:"Feel", copy:"Light, tactile, or heavy?", image:"/images/discovery-feel-1.webp" },
+  { title:"Size", copy:"60%, 75%, TKL, or full-size?", image:"/images/discovery-size.webp" },
+  { title:"Use", copy:"Work, gaming, coding, or creating?", image:"/images/discovery-use.webp" },
 ];
 const switches = [
   {letter:"L",name:"Linear",description:"Smooth and consistent. No bump, just a clean keystroke.",frequency:290,color:"linear"},
@@ -66,6 +67,7 @@ function addToCart(product:Product, quantity:number, options:string) {
 }
 
 export default function Home() {
+  preconnect("https://prod.spline.design", {crossOrigin:"anonymous"});
   const [active, setActive] = useState<Product | null>(null);
   const [color, setColor] = useState("Onyx");
   const [switchType, setSwitchType] = useState("Linear");
@@ -110,8 +112,21 @@ export default function Home() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setSceneEnabled(!reduceMotion && !(navigator as Navigator & {connection?:{saveData?:boolean}}).connection?.saveData);
-    if (reduceMotion) return;
+    const connection = (navigator as Navigator & {connection?:{saveData?:boolean;effectiveType?:string}}).connection;
+    if (reduceMotion || connection?.saveData || ["slow-2g", "2g"].includes(connection?.effectiveType ?? "")) return;
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: () => void, options: {timeout: number}) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    if (idleWindow.requestIdleCallback) {
+      const idleHandle = idleWindow.requestIdleCallback(() => setSceneEnabled(true), {timeout: 1200});
+      return () => idleWindow.cancelIdleCallback?.(idleHandle);
+    }
+    const timer = window.setTimeout(() => setSceneEnabled(true), 800);
+    return () => window.clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
     const updateParallax = () => {
       cancelAnimationFrame(frame);
@@ -144,22 +159,22 @@ export default function Home() {
   function openProduct(product:Product, trigger:HTMLButtonElement) { triggerRef.current=trigger; setActive(product); setColor("Onyx"); setSwitchType("Linear"); setQuantity(1); setGallery(0); setAdded(false); }
   function closeProduct() { setActive(null); requestAnimationFrame(() => triggerRef.current?.focus()); }
   function toggleFavorite(id:string) { setFavorites(current => current.includes(id) ? current.filter(value => value!==id) : [...current,id]); }
-  const galleryImages = active?.id === "k3" ? ["/images/kliks-k3-view-1.png","/images/kliks-k3-view-2.png","/images/kliks-k3-view-3.png","/images/kliks-k3-view-4.png","/images/kliks-k3-view-5.png"] : active ? [active.image] : [];
+  const galleryImages = active?.id === "k3" ? ["/images/kliks-k3-view-1.webp","/images/kliks-k3-view-2.webp","/images/kliks-k3-view-3.webp","/images/kliks-k3-view-4.webp","/images/kliks-k3-view-5.webp"] : active ? [active.image] : [];
 
   return <><SiteHeader/><main className="home">
     <section className="home-hero" aria-labelledby="home-title">
       <div className="home-hero-inner">
         <div className="home-wordmark" aria-hidden>KLIKS</div>
         <div className="home-scene" ref={sceneRef} aria-label="Interactive 3D keyboard">
-          {sceneEnabled ? <Spline scene={SCENE} onLoad={app => app.setBackgroundColor("rgba(255,255,255,0)")} /> : <img className="home-spline-poster" src="/images/kliks-3d-model.png" alt="Kliks 3D keyboard model"/>}
+          {sceneEnabled ? <Spline scene={SCENE} onLoad={app => app.setBackgroundColor("rgba(255,255,255,0)")} /> : <img className="home-spline-poster" src="/images/kliks-3d-model.webp" alt="Kliks 3D keyboard model" fetchPriority="high" decoding="async"/>}
         </div>
         <div className="home-hero-copy"><h1 id="home-title">Find a keyboard you&apos;ll love clicking.</h1><p>We&apos;ll help you understand switches, sounds, layouts, and everything else you need to choose the right keyboard.</p></div>
         <div className="home-hero-actions"><Button variant="primary" icon="trailing" href="/coming-soon?from=Find%20Your%20Keyboard">Find my keyboard</Button><Button variant="secondary" size="large" href="/learn">Learn the basics</Button></div>
       </div>
     </section>
-    <section className="home-discovery" aria-labelledby="discovery-title"><div className="home-section-heading"><h2 id="discovery-title">What makes a keyboard right for you?</h2><p>Start with what matters most, and we&apos;ll guide you from there.</p></div><div className="home-discovery-grid">{discovery.map(item => <Link href="/learn#start-here" className="home-discovery-card" key={item.title}><img src={item.image} alt=""/><div className="home-discovery-shade"/><div className="home-discovery-copy"><h3>{item.title}</h3><p>{item.copy}</p><span>Explore&nbsp; <img className="home-icon" src="/icons/arrow-right.svg" alt="" /></span></div></Link>)}</div></section>
+    <section className="home-discovery" aria-labelledby="discovery-title"><div className="home-section-heading"><h2 id="discovery-title">What makes a keyboard right for you?</h2><p>Start with what matters most, and we&apos;ll guide you from there.</p></div><div className="home-discovery-grid">{discovery.map(item => <Link href="/learn#start-here" className="home-discovery-card" key={item.title}><img src={item.image} alt="" loading="lazy" decoding="async"/><div className="home-discovery-shade"/><div className="home-discovery-copy"><h3>{item.title}</h3><p>{item.copy}</p><span>Explore&nbsp; <img className="home-icon" src="/icons/arrow-right.svg" alt="" /></span></div></Link>)}</div></section>
     <section className="home-sounds" id="hear-the-difference" aria-labelledby="sounds-title"><div className="home-sounds-inner"><div className="home-sounds-heading"><h2 id="sounds-title">Hear the difference.</h2><p>Tap a key here, or press L, T, or C on your keyboard to hear each switch.</p></div><div className="home-switches">{switches.map(item => <div className="home-switch" key={item.name}><button type="button" className={`home-keycap home-keycap-${item.color}${pressedKey===item.letter?" is-pressed":""}`} onClick={() => playSwitch(item.frequency)} onPointerDown={() => setPressedKey(item.letter)} onPointerUp={() => setPressedKey(null)} onPointerCancel={() => setPressedKey(null)} onBlur={() => setPressedKey(null)} aria-label={`Play ${item.name} switch demo sound`}>{item.letter}</button><div><h3>{item.name}</h3><p>{item.description}</p></div></div>)}</div></div></section>
-    <section className="home-favorites" aria-labelledby="favorites-title"><div className="home-section-heading"><h2 id="favorites-title">Meet our favorites</h2><p>Thoughtful builds, great feel, and a sound you&apos;ll love.</p></div><div className="home-carousel" ref={carouselRef}>{products.map(product => <article className="home-product" key={product.id}><div className="home-product-media"><button className="home-product-open" type="button" onClick={event=>openProduct(product,event.currentTarget)} aria-label={`View ${product.name} details`}><img src={product.image} alt={`${product.name} mechanical keyboard`}/></button>{product.limited && <span className="home-product-badge">Limited edition</span>}<button className={favorites.includes(product.id) ? "home-favorite is-favorite" : "home-favorite"} type="button" onClick={()=>toggleFavorite(product.id)} aria-label={`${favorites.includes(product.id)?"Remove":"Add"} ${product.name} ${favorites.includes(product.id)?"from":"to"} wishlist`}><img src={favorites.includes(product.id)?"/icons/heart-filled.svg":"/icons/heart.svg"} alt="" /></button></div><div className="home-product-info"><button className="home-product-name" type="button" onClick={event=>openProduct(product,event.currentTarget)}>{product.name}</button><p>{product.detail}</p><span className="home-product-rating">{product.rating.startsWith("NEW") ? product.rating : <><img src="/icons/five-stars.svg" alt="5 stars" /> {product.rating}</>}</span><div className="home-product-bottom"><strong>${product.price}</strong><button type="button" className="home-quick-add" onClick={event=>openProduct(product,event.currentTarget)} aria-label={`Choose options for ${product.name}`}><img src="/icons/shopping-bag.svg" alt="" /></button></div></div></article>)}</div><CarouselArrows className="home-carousel-controls" previousLabel="Previous keyboards" nextLabel="Next keyboards" onPrevious={()=>carouselRef.current?.scrollBy({left:-364,behavior:"smooth"})} onNext={()=>carouselRef.current?.scrollBy({left:364,behavior:"smooth"})}/>
+    <section className="home-favorites" aria-labelledby="favorites-title"><div className="home-section-heading"><h2 id="favorites-title">Meet our favorites</h2><p>Thoughtful builds, great feel, and a sound you&apos;ll love.</p></div><div className="home-carousel" ref={carouselRef}>{products.map(product => <article className="home-product" key={product.id}><div className="home-product-media"><button className="home-product-open" type="button" onClick={event=>openProduct(product,event.currentTarget)} aria-label={`View ${product.name} details`}><img src={product.image} alt={`${product.name} mechanical keyboard`} loading="lazy" decoding="async"/></button>{product.limited && <span className="home-product-badge">Limited edition</span>}<button className={favorites.includes(product.id) ? "home-favorite is-favorite" : "home-favorite"} type="button" onClick={()=>toggleFavorite(product.id)} aria-label={`${favorites.includes(product.id)?"Remove":"Add"} ${product.name} ${favorites.includes(product.id)?"from":"to"} wishlist`}><img src={favorites.includes(product.id)?"/icons/heart-filled.svg":"/icons/heart.svg"} alt="" /></button></div><div className="home-product-info"><button className="home-product-name" type="button" onClick={event=>openProduct(product,event.currentTarget)}>{product.name}</button><p>{product.detail}</p><span className="home-product-rating">{product.rating.startsWith("NEW") ? product.rating : <><img src="/icons/five-stars.svg" alt="5 stars" /> {product.rating}</>}</span><div className="home-product-bottom"><strong>${product.price}</strong><button type="button" className="home-quick-add" onClick={event=>openProduct(product,event.currentTarget)} aria-label={`Choose options for ${product.name}`}><img src="/icons/shopping-bag.svg" alt="" /></button></div></div></article>)}</div><CarouselArrows className="home-carousel-controls" previousLabel="Previous keyboards" nextLabel="Next keyboards" onPrevious={()=>carouselRef.current?.scrollBy({left:-364,behavior:"smooth"})} onNext={()=>carouselRef.current?.scrollBy({left:364,behavior:"smooth"})}/>
       {active && <div className="home-product-detail" ref={detailRef} tabIndex={-1} aria-label={`${active.name} details`}><button type="button" className="home-detail-close" onClick={closeProduct} aria-label="Close product details"><img src="/icons/close.svg" alt="" /></button><div className="home-detail-gallery"><div className="home-detail-image"><img src={galleryImages[gallery]} alt={`${active.name} view ${gallery+1}`}/>{active.limited && <span className="home-product-badge">Limited edition</span>}</div><div className="home-detail-thumbs">{galleryImages.map((src,index)=><button type="button" key={src} className={gallery===index?"is-selected":""} onClick={()=>setGallery(index)} aria-label={`Show ${active.name} view ${index+1}`}><img src={src} alt=""/></button>)}</div></div><div className="home-detail-copy"><span className="home-detail-eyebrow">{active.limited?"Limited edition":"Keyboard collection"}</span><h3>{active.name}</h3><p className="home-detail-subtitle">100% Mechanical Keyboard</p><p className="home-detail-rating"><img src="/icons/five-stars.svg" alt="5 stars" /> {active.rating.startsWith("NEW")?"4.9 (214)":active.rating}</p><strong className="home-detail-price">${active.price}</strong><p className="home-detail-description">A full-size keyboard designed for smooth typing, premium materials, and vibrant RGB lighting.</p><div className="home-detail-field"><span>Colorway</span><div className="home-colors">{[["Onyx","#10232e"],["Violet","#5a4674"],["Lavender","#ab78c8"],["Rose","#da8da3"]].map(([name,value])=><button type="button" key={name} className={color===name?"is-selected":""} style={{background:value}} onClick={()=>setColor(name)} aria-label={`${name} colorway`} aria-pressed={color===name}/>)}</div></div><div className="home-detail-field"><span>Switch Type</span><div className="home-switch-select">{["Linear","Tactile","Clicky"].map(type=><button key={type} type="button" className={switchType===type?"is-selected":""} onClick={()=>setSwitchType(type)} aria-pressed={switchType===type}>{type}</button>)}</div></div><div className="home-detail-buy"><QuantityStepper className="home-quantity" value={quantity} onChange={setQuantity}/><button type="button" className="home-add-cart" onClick={()=>{addToCart(active,quantity,`${color} · ${switchType}`);setAdded(true)}}>{added?<><span>Added to cart</span><img src="/icons/check.svg" alt="" /></>:"Add to cart"}</button></div><button type="button" className="home-detail-wishlist" onClick={()=>toggleFavorite(active.id)}><img src={favorites.includes(active.id)?"/icons/heart-filled.svg":"/icons/heart.svg"} alt="" /> {favorites.includes(active.id)?"Added to wishlist":"Add to wishlist"}</button>{added && <Link href="/checkout" className="home-view-checkout">View demo checkout <img className="home-icon" src="/icons/arrow-right.svg" alt="" /></Link>}</div></div>}
       <Button variant="secondary" size="large" href="/coming-soon?from=Shop" className="home-see-more">See more keyboards</Button>
     </section>

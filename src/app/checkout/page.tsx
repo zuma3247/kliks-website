@@ -32,7 +32,11 @@ function readCart(): CartItem[] {
       item && typeof item.id === "string" && typeof item.name === "string" &&
       typeof item.price === "number" && Number.isFinite(item.price) && item.price >= 0 &&
       typeof item.quantity === "number" && Number.isFinite(item.quantity) && item.quantity > 0
-    ).map(item => ({ ...item, quantity: Math.min(99, Math.floor(item.quantity)) }));
+    ).map(item => ({
+      ...item,
+      image: typeof item.image === "string" ? item.image.replace(/\.(?:png|jpe?g)(?=$|[?#])/i, ".webp") : item.image,
+      quantity: Math.min(99, Math.floor(item.quantity)),
+    }));
   } catch {
     return [];
   }

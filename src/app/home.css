@@ -48,3 +48,6 @@
 @media(min-width:801px){.home-wordmark{top:45px}.home-scene{top:120px;height:390px}.home-hero-copy{top:500px}}
 .home-product-rating,.home-detail-rating{display:inline-flex;align-items:center;gap:4px}.home-product-rating img,.home-detail-rating img{width:65px;height:13px}.home-add-cart{display:inline-flex;align-items:center;justify-content:center;gap:7px}.home-add-cart img{width:15px;height:15px}
 
+.home-keycap{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.home-keycap:focus:not(:focus-visible){outline:none}
+

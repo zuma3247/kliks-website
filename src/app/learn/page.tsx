@@ -8,18 +8,18 @@ import CarouselArrows from "@/components/CarouselArrows";
 import "./learn.css";
 
 const guides = [
-  { category: "LAYOUTS & SIZES", title: "Keyboard sizes explained", summary: "From 60% to full size, find a layout that fits your desk.", image: "/learn/guide-sizes.png", slug: "keyboard-sizes-explained" },
-  { category: "SWITCHES & SOUND", title: "Switch types, made simple", summary: "Linear, tactile, or clicky? Learn what changes the feel.", image: "/learn/guide-switches.png", slug: "switch-types-made-simple" },
-  { category: "GETTING STARTED", title: "Find your typing feel", summary: "Match your daily routine with keys that feel just right.", image: "/learn/guide-feel.png", slug: "find-your-typing-feel" },
-  { category: "CARE & SETUP", title: "Care for your keyboard", summary: "A simple cleaning routine for keys that feel fresh.", image: "/learn/guide-care.png", slug: "care-for-your-keyboard" },
-  { category: "CARE & SETUP", title: "Build a better workspace", summary: "Small setup changes can make long sessions easier.", image: "/learn/hero-workspace.png", slug: "build-a-better-workspace" },
-  { category: "SWITCHES & SOUND", title: "Hear the difference", summary: "Compare sound profiles and find a click that suits you.", image: "/learn/guide-sound.png", slug: "hear-the-difference" },
+  { category: "LAYOUTS & SIZES", title: "Keyboard sizes explained", summary: "From 60% to full size, find a layout that fits your desk.", image: "/learn/guide-sizes.webp", slug: "keyboard-sizes-explained" },
+  { category: "SWITCHES & SOUND", title: "Switch types, made simple", summary: "Linear, tactile, or clicky? Learn what changes the feel.", image: "/learn/guide-switches.webp", slug: "switch-types-made-simple" },
+  { category: "GETTING STARTED", title: "Find your typing feel", summary: "Match your daily routine with keys that feel just right.", image: "/learn/guide-feel.webp", slug: "find-your-typing-feel" },
+  { category: "CARE & SETUP", title: "Care for your keyboard", summary: "A simple cleaning routine for keys that feel fresh.", image: "/learn/guide-care.webp", slug: "care-for-your-keyboard" },
+  { category: "CARE & SETUP", title: "Build a better workspace", summary: "Small setup changes can make long sessions easier.", image: "/learn/hero-workspace.webp", slug: "build-a-better-workspace" },
+  { category: "SWITCHES & SOUND", title: "Hear the difference", summary: "Compare sound profiles and find a click that suits you.", image: "/learn/guide-sound.webp", slug: "hear-the-difference" },
 ];
 
 const topics = [
-  { title: "Switches & sound", summary: "Hear and feel the differences before you decide.", image: "/learn/guide-switches.png", slug: "switches-and-sound" },
-  { title: "Layouts & sizes", summary: "Compare familiar layouts and find the right footprint.", image: "/learn/topic-layouts.jpg", slug: "layouts-and-sizes" },
-  { title: "Care & setup", summary: "Keep your keyboard clean, comfortable, and ready.", image: "/learn/hero-workspace.png", slug: "care-and-setup" },
+  { title: "Switches & sound", summary: "Hear and feel the differences before you decide.", image: "/learn/guide-switches.webp", slug: "switches-and-sound" },
+  { title: "Layouts & sizes", summary: "Compare familiar layouts and find the right footprint.", image: "/learn/topic-layouts.webp", slug: "layouts-and-sizes" },
+  { title: "Care & setup", summary: "Keep your keyboard clean, comfortable, and ready.", image: "/learn/hero-workspace.webp", slug: "care-and-setup" },
 ];
 
 function Arrow() {
@@ -46,7 +46,7 @@ export default function LearnPage() {
             </div>
             <div className="learn-hero-media">
               <p className="learn-hero-wordmark" aria-hidden="true">LEARN</p>
-              <img className="learn-hero-image" src="/learn/hero-workspace.png" alt="A compact mechanical keyboard in a laptop workspace" />
+              <img className="learn-hero-image" src="/learn/hero-workspace.webp" alt="A compact mechanical keyboard in a laptop workspace" />
             </div>
           </div>
         </section>
@@ -107,7 +107,7 @@ export default function LearnPage() {
               <p>Answer a few quick questions and we’ll recommend a keyboard that feels right for you.</p>
               <a href="/coming-soon?from=find-your-keyboard" className="learn-finder-link">Find my keyboard</a>
             </div>
-            <img src="/learn/guide-sound.png" alt="Close up of mechanical keyboard switches" loading="lazy" />
+            <img src="/learn/guide-sound.webp" alt="Close up of mechanical keyboard switches" loading="lazy" />
           </div>
         </section>
       </main>
