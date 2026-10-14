@@ -1,0 +1,47 @@
+/* Shared Kliks button. Values come from the Figma components Button/Primary/Teal, Button/Secondary and Button/Primary/Nav CTA. */
+.kbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:120px;margin:0;padding:0;border:0;background:none;color:inherit;font-family:inherit;text-decoration:none;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,background-color .12s ease,border-color .12s ease,color .12s ease}
+.kbtn--full{width:100%}
+.kbtn-label{position:relative}
+.kbtn-icon{position:relative;width:18px;height:18px;flex:none;display:block}
+.kbtn:focus-visible{outline:none}
+
+/* Primary keycap: 44px plate on a bevel, 52px overall */
+.kbtn--primary{flex-direction:column;align-items:stretch;height:52px;min-width:140px}
+.kbtn--primary::before{content:"";position:absolute;inset:16px 0 0 0;border-radius:14px;background:linear-gradient(#069494,#176161)}
+.kbtn--primary .kbtn-plate{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 12px;border:1px solid #13d4d4;border-radius:12px;background:linear-gradient(#069494,#176161);color:#fff;font-size:15px;font-weight:900;filter:drop-shadow(0 4px 3.5px rgba(23,97,97,.24));box-shadow:inset 0 1px 2px rgba(158,252,255,.13);transition:transform .16s ease,box-shadow .24s ease,border-color .24s ease,filter .24s ease}
+.kbtn--primary .kbtn-plate::after{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 0,rgba(158,252,255,.72),rgba(19,212,212,.22) 42%,transparent 76%);opacity:0;pointer-events:none;transition:opacity .28s cubic-bezier(.2,.7,.2,1)}
+.kbtn--primary .kbtn-label,.kbtn--primary .kbtn-icon{z-index:1}
+.kbtn--primary .kbtn-icon{filter:brightness(0) invert(1)}
+.kbtn--primary:hover .kbtn-plate,.kbtn--primary:focus-visible .kbtn-plate{border-color:#9efcff;filter:drop-shadow(0 5px 4.5px rgba(23,97,97,.3));box-shadow:inset 0 1px 2px rgba(158,252,255,.24)}
+.kbtn--primary:hover .kbtn-plate::after,.kbtn--primary:focus-visible .kbtn-plate::after{opacity:1}
+.kbtn--primary:active .kbtn-plate{transform:translateY(5px);border-color:#069494;background:#176161;filter:none;box-shadow:inset 0 3px 5px rgba(23,97,97,.38)}
+.kbtn--primary:focus-visible::after{content:"";position:absolute;inset:-6px;border:3px solid #9efcff;border-radius:16px;box-shadow:0 0 8px rgba(19,212,212,.38);pointer-events:none}
+.kbtn--primary:focus-visible .kbtn-plate{filter:drop-shadow(0 3px 4px rgba(19,212,212,.34));box-shadow:inset 0 1px 2px rgba(158,252,255,.16)}
+
+/* Secondary: flat outline, 44px (large 52px) */
+.kbtn--secondary{gap:8px;height:44px;padding:0 16px;border:2px solid #94a3b8;border-radius:8px;background:#fff;color:#0f172a;font-size:14px;font-weight:700}
+.kbtn--secondary.kbtn--large{height:52px}
+.kbtn--secondary:hover{border-color:#13d4d4;background:#e8feff;color:#176161;box-shadow:0 3px 3px rgba(23,97,97,.18)}
+.kbtn--secondary:active{border-color:#069494;background:#9efcff;color:#176161;box-shadow:inset 0 2px 4px rgba(23,97,97,.28)}
+.kbtn--secondary:focus-visible{border-color:#14b8a6}
+.kbtn--secondary:focus-visible::after{content:"";position:absolute;inset:-7px;border:2px solid #22d3ee;border-radius:13px;pointer-events:none}
+
+/* Nav CTA keycap: 36px plate on a bevel, 44px overall */
+.kbtn--nav{flex-direction:column;align-items:stretch;height:44px;min-width:140px}
+.kbtn--nav::before{content:"";position:absolute;inset:12px 0 0 0;border-radius:10px;background:linear-gradient(#0d5c5c,#063e3e)}
+.kbtn--nav .kbtn-plate{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border:1px solid #2ee5e5;border-radius:8px;background:linear-gradient(#069494,#0d5c5c);color:#fff;font-size:13px;font-weight:900;filter:drop-shadow(0 3px 2.5px rgba(0,26,26,.13));box-shadow:inset 0 1px 2px rgba(255,255,255,.18);transition:transform .16s ease,box-shadow .24s ease,border-color .24s ease,filter .24s ease}
+.kbtn--nav .kbtn-plate::after{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 0,rgba(158,252,255,.72),rgba(19,212,212,.22) 42%,transparent 76%);opacity:0;pointer-events:none;transition:opacity .28s cubic-bezier(.2,.7,.2,1)}
+.kbtn--nav .kbtn-label,.kbtn--nav .kbtn-icon{z-index:1}
+.kbtn--nav:hover .kbtn-plate,.kbtn--nav:focus-visible .kbtn-plate{border-color:#9efcff}
+.kbtn--nav:hover .kbtn-plate::after,.kbtn--nav:focus-visible .kbtn-plate::after{opacity:1}
+.kbtn--nav:active .kbtn-plate{transform:translateY(4px);background:#0d5c5c;filter:none;box-shadow:inset 0 3px 5px rgba(0,26,26,.38)}
+.kbtn--nav:focus-visible::after{content:"";position:absolute;inset:-5px;border:3px solid #9efcff;border-radius:14px;box-shadow:0 0 8px rgba(19,212,212,.38);pointer-events:none}
+
+/* Disabled */
+.kbtn:disabled,.kbtn[aria-disabled="true"]{cursor:not-allowed;pointer-events:none}
+.kbtn--primary:disabled,.kbtn--primary[aria-disabled="true"]{opacity:.55}
+.kbtn--primary:disabled .kbtn-plate,.kbtn--primary[aria-disabled="true"] .kbtn-plate{background:#9efcff;color:#176161;filter:none;box-shadow:none}
+.kbtn--primary:disabled .kbtn-icon,.kbtn--primary[aria-disabled="true"] .kbtn-icon{filter:brightness(0) saturate(100%) invert(22%) sepia(40%) saturate(900%) hue-rotate(130deg)}
+.kbtn--secondary:disabled,.kbtn--secondary[aria-disabled="true"]{opacity:.4;background:#f1f5f9;border-color:#cbd5e1;color:#94a3b8;box-shadow:none}
+
+@media(prefers-reduced-motion:reduce){.kbtn,.kbtn .kbtn-plate,.kbtn .kbtn-plate::after{transition:none}}

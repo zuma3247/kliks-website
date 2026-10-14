@@ -1,0 +1,7 @@
+.carousel-arrows{display:flex;justify-content:flex-end;gap:8px}
+.carousel-arrows button{display:grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid #d4e3e5;border-radius:50%;background:#fff;color:#0a1a21;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease,border-color .16s ease}
+.carousel-arrows button img{display:block;width:18px;height:18px}
+.carousel-arrows button:hover{background:#eaf6f4;border-color:#05787a;box-shadow:0 3px 0 #b8cfd4;transform:translateY(-2px)}
+.carousel-arrows button:active{box-shadow:none;transform:translateY(1px)}
+.carousel-arrows button:focus-visible{outline:3px solid #13d4d4;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.carousel-arrows button{transition:none}}

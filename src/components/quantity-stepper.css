@@ -1,0 +1,10 @@
+/* Shared quantity stepper. Pages set size through --qty-* variables. */
+.qty{display:flex;align-items:center;justify-content:space-between;height:var(--qty-h,44px);border:1px solid #6b7d8c;border-radius:var(--qty-r,8px);background:#fff;overflow:hidden}
+.qty button{display:grid;place-items:center;width:var(--qty-btn,44px);height:100%;border:0;background:none;color:#0a1f2b;cursor:pointer;transition:background-color .16s ease,transform .16s ease}
+.qty button img{display:block;width:var(--qty-icon,18px);height:var(--qty-icon,18px)}
+.qty button:hover:not(:disabled){background:#e5f2f2}
+.qty button:active:not(:disabled){background:#c9e8e5;transform:translateY(1px)}
+.qty button:disabled{opacity:.4;cursor:not-allowed}
+.qty button:focus-visible{outline:3px solid #13d4d4;outline-offset:-3px}
+.qty span{display:grid;place-items:center;width:var(--qty-num,48px);font-size:var(--qty-fs,14px);font-weight:700}
+@media(prefers-reduced-motion:reduce){.qty button{transition:none}}

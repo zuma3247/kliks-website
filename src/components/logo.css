@@ -1,0 +1,5 @@
+.kliks-logo{display:inline-flex;align-items:center;gap:10px;flex:none;text-decoration:none}
+.kliks-logo img{display:block;flex:none;max-width:none}
+.kliks-logo-mark{width:45.5px;height:45.5px}
+.kliks-logo-word{width:54px;height:19.3px;transform:translateY(-3.7px)}
+.kliks-logo--mark .kliks-logo-word{display:none}

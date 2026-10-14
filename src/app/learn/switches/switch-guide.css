@@ -1,0 +1,73 @@
+/* Switch guide. Shares fonts, containers, headings and the hero with learn.css. */
+.switch-guide { --sg-linear: #116b69; --sg-tactile: #8a6241; --sg-clicky: #245b79; }
+.switch-guide :where(h3, p, figure, ol) { margin: 0; }
+.sg-section { padding-block: 96px; background: #fff; }
+.sg-tint { background: #eaf6f4; }
+.sg-soft { background: #f6f9f8; }
+.switch-guide [aria-labelledby="inside-title"] .learn-container { width: min(934px, calc(100% - 40px)); }
+.sg-figure { display: grid; place-items: center; border-radius: 16px; background: #f6f9f8; }
+.sg-figure img { display: block; width: 100%; height: auto; }
+.sg-tint .sg-figure, .sg-soft .sg-figure { background: #fff; }
+
+.sg-overview { padding: 32px 48px; }
+.sg-overview picture { display: block; width: 100%; max-width: 800px; }
+.sg-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 32px; padding: 0; list-style: none; }
+.sg-steps h3, .sg-parts h3 { font-size: 20px; font-weight: 700; line-height: 26px; }
+.sg-steps p, .sg-parts p { margin-top: 8px; color: #52636b; font-size: 15px; line-height: 22px; }
+
+.sg-feel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sg-feel-card { display: flex; min-width: 0; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid #d4e3e5; border-radius: 16px; background: #fff; }
+.sg-feel-card h3 { font-size: 22px; font-weight: 700; line-height: 28px; }
+.sg-feel-card.linear h3 { color: var(--sg-linear); }
+.sg-feel-card.tactile h3 { color: var(--sg-tactile); }
+.sg-feel-card.clicky h3 { color: var(--sg-clicky); }
+.sg-feel-card > p { color: #52636b; font-size: 15px; line-height: 22px; }
+.sg-feel-card .sg-figure { margin-top: 4px; padding: 12px 8px; background: #f6f9f8; }
+.sg-good-for { margin-top: auto; }
+.sg-feel-card .sg-good-for { color: #0a1a21; }
+
+.sg-anatomy { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 1fr); gap: 64px; align-items: center; }
+.sg-anatomy .sg-figure { padding: 32px; }
+.sg-parts { display: grid; gap: 28px; padding: 0; list-style: none; }
+.sg-parts li { display: flex; gap: 16px; align-items: flex-start; }
+.sg-part-number { display: grid; width: 32px; height: 32px; flex: none; place-items: center; border-radius: 50%; background: #0e1a1c; color: #fff; font-size: 16px; font-weight: 700; }
+.sg-parts p { margin-top: 4px; }
+
+.sg-table { width: 100%; border-collapse: separate; border-spacing: 0 12px; margin-top: 0; text-align: left; table-layout: fixed; }
+.sg-table :is(th, td) { padding: 18px 20px; font-size: 16px; line-height: 24px; }
+.sg-table thead th { padding-block: 0; color: #52636b; font-size: 14px; font-weight: 700; line-height: 20px; }
+.sg-table tbody :is(th, td) { background: #fff; }
+.sg-table tbody td:first-child { border-radius: 12px 0 0 12px; font-weight: 700; }
+.sg-table tbody td:last-child { border-radius: 0 12px 12px 0; }
+.sg-table tbody th { font-weight: 700; }
+.sg-table tbody th.linear { color: var(--sg-linear); }
+.sg-table tbody th.tactile { color: var(--sg-tactile); }
+.sg-table tbody th.clicky { color: var(--sg-clicky); }
+.sg-table tbody td:nth-child(3), .sg-table tbody td:nth-child(4) { color: #52636b; }
+
+@media (max-width: 1000px) {
+  .sg-anatomy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; }
+  .sg-feel-grid { gap: 16px; }
+}
+@media (max-width: 767px) {
+  .sg-section { padding-block: 64px; }
+  .sg-overview { padding: 24px 16px; }
+  .sg-overview picture { max-width: 200px; }
+  .sg-steps { grid-template-columns: 1fr; gap: 20px; margin-top: 24px; }
+  .sg-steps h3, .sg-parts h3 { font-size: 18px; line-height: 24px; }
+  .sg-feel-grid { grid-template-columns: 1fr; gap: 20px; }
+  .sg-feel-card h3 { font-size: 20px; line-height: 24px; }
+  .sg-anatomy { display: flex; flex-direction: column; align-items: stretch; gap: 24px; }
+  .sg-anatomy .sg-figure { padding: 20px; }
+  .sg-parts { gap: 20px; }
+  .sg-table, .sg-table tbody { display: block; }
+  .sg-table { margin-top: 0; }
+  .sg-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sg-table tbody { display: grid; gap: 12px; }
+  .sg-table tr { display: grid; gap: 4px; padding: 16px 20px; border-radius: 12px; background: #fff; }
+  .sg-table tbody :is(th, td) { display: block; padding: 0; border-radius: 0 !important; background: none; font-size: 15px; line-height: 22px; }
+  .sg-table tbody td.sg-want { color: #52636b; font-weight: 400; }
+  .sg-table tbody td.sg-want::before { content: "If you want: "; }
+  .sg-table tbody th { order: -1; font-size: 20px; line-height: 26px; }
+  .sg-table tbody td[data-label]::before { content: attr(data-label) ": "; color: #0a1a21; font-weight: 700; }
+}
